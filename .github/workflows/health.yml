@@ -1,0 +1,22 @@
+name: Daily health check
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 8 * * *'
+permissions:
+  contents: read
+jobs:
+  health:
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - run: node ci/health-check.cjs
+        env:
+          APP_URL: ${{ vars.APP_URL }}

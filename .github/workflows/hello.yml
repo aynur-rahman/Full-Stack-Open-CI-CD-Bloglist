@@ -1,0 +1,17 @@
+name: Hello World
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: echo "Hello World!"
+      - name: Current date
+        run: date
+      - name: Runner directory before checkout
+        run: ls -l
