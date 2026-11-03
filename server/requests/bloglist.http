@@ -1,0 +1,46 @@
+@baseUrl = http://localhost:3003
+@token = {{login.response.body.$.token}}
+@blogId = {{createBlog.response.body.$.id}}
+
+### Create a disposable local user (run once; a duplicate returns 400)
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{ "username": "restclient", "name": "REST Client Reader", "password": "local-demo-password" }
+
+### Log in before creating or deleting blogs
+# @name login
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{ "username": "restclient", "password": "local-demo-password" }
+
+### Create a blog belonging to the logged-in user
+# @name createBlog
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "REST Client verification", "author": "Course Reader", "url": "https://example.com/blog", "likes": 2 }
+
+### List blogs with creator information (public)
+GET {{baseUrl}}/api/blogs
+
+### List users with their blogs (public)
+GET {{baseUrl}}/api/users
+
+### Update likes without changing ownership
+PUT {{baseUrl}}/api/blogs/{{blogId}}
+Content-Type: application/json
+
+{ "likes": 3 }
+
+### Creating without a token must return 401
+POST {{baseUrl}}/api/blogs
+Content-Type: application/json
+
+{ "title": "Unauthorized", "url": "https://example.com/unauthorized" }
+
+### Delete as the creator
+DELETE {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}

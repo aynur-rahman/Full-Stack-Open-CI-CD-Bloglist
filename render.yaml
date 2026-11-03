@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fso-cicd-bloglist
+    runtime: node
+    plan: free
+    branch: main
+    autoDeployTrigger: off
+    buildCommand: npm ci --include=dev --engine-strict && NPM_CONFIG_INCLUDE=dev npm run setup && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.15.0
+      - key: MONGODB_URI
+        sync: false
+      - key: SECRET
+        generateValue: true
