@@ -20,3 +20,7 @@ npm run dev
 - `npm test` (backend and frontend tests)
 - `npm run build`
 - `npm run test:e2e` (production build against a temporary MongoDB)
+
+## Deployment
+
+The app runs on Render at https://fso-cicd-bloglist.onrender.com. Every push to `main` that passes lint, tests, the build and the end-to-end tests is deployed by the pipeline, which then waits until `/health` answers and `/version` reports the new commit. Successful deployments are tagged with a patch version.
