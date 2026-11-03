@@ -24,3 +24,7 @@ npm run dev
 ## Deployment
 
 The app runs on Render at https://fso-cicd-bloglist.onrender.com. Every push to `main` that passes lint, tests, the build and the end-to-end tests is deployed by the pipeline, which then waits until `/health` answers and `/version` reports the new commit. Successful deployments are tagged with a patch version.
+
+## Contributing
+
+`main` is protected: changes go through a pull request that needs an approving review and passing lint, unit, build and end-to-end checks, and this applies to administrators too.
